@@ -9,26 +9,46 @@
 
 (function(){
   var TALogout_mainFunction = function() {
+    console.log("TALogout Loaded");
     function createTweak() {
-      var TALogout = {};
+      //var TALogout = {};
       qx.Class.define("TALogout.main", {
         type: "singleton",
         extend: qx.core.Object,
+        construct : function () {},
         members: {
           buttonLogout: null,
 		  buttonBack: null,
           initialize: function() {
             var logoutBar = qx.core.Init.getApplication().__dh;
 			//Logout-Button
-            this.buttonLogout = new qx.ui.form.Button("Logout");
-            this.buttonLogout.set({width: 20});
-            this.buttonLogout.addListener("click", this.logout, this);
-            logoutBar.add(this.buttonLogout, {top: 0, right: 0});
+            this.buttonLogout = new qx.ui.form.Button("Logout").set({
+                toolTipText: "Log Out",
+                width: 20,
+                height: 40,
+                maxWidth: 100,
+                maxHeight: 40,
+                //appearance: ("button-playarea-mode-frame"), //"button-standard-"+factionText), button-playarea-mode-red-frame
+                center: true
+            });
+            this.buttonLogout.addListener("click", function (e) {
+                this.logout();
+            }, this);
+            logoutBar.getDesktop().add(this.buttonLogout, {top: 20, right: 125});
 			//Back-Button
-			this.buttonBack = new qx.ui.form.Button("Back");
-            this.buttonBack.set({width: 20, appearance: "button-text-small"});
-            this.buttonBack.addListener("click", this.back, this);
-            logoutBar.add(this.buttonBack, {top: 20, right: 0});
+			this.buttonBack = new qx.ui.form.Button("Back").set({
+                toolTipText: "Back",
+                width: 20,
+                height: 40,
+                maxWidth: 100,
+                maxHeight: 40,
+                //appearance: ("button-playarea-mode-frame"), //"button-standard-"+factionText), button-playarea-mode-red-frame
+                center: true
+            });
+            this.buttonBack.addListener("click", function (e) {
+                this.back();
+            }, this);
+            logoutBar.getDesktop().add(this.buttonBack, {top: 40, right: 125});
           },
           logout: function() {
             window.location.assign("https://alliances.commandandconquer.com/logout");
@@ -47,7 +67,7 @@
           mb = qx.core.Init.getApplication().getMenuBar();
           if (a && mb) {
             createTweak();
-            window.TALogout.main.getInstance().initialize();
+            //window.TALogout.main.getInstance().initialize();
           } else
             window.setTimeout(TALogout_checkIfLoaded, 1000);
         } else {
