@@ -3,21 +3,18 @@
 // @namespace      Tiberium_Alliances_Logout
 // @description    Creates logout and back buttons.
 // @include        https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
-// @version        1.5.0
+// @version        1.5.1
 // @author         satougame & DLwarez
 // ==/UserScript==
 
 (function(){
   var TALogout_mainFunction = function() {
-    var TALogout;
-      
-      function createTweak() {
-      console.log("TALogout Loaded");
-          
+    function createTweak() {
+      var TALogout = {};
       qx.Class.define("TALogout.main", {
         type: "singleton",
         extend: qx.core.Object,
-          members: {
+        members: {
           buttonLogout: null,
 		  buttonBack: null,
           initialize: function() {
@@ -26,12 +23,12 @@
             this.buttonLogout = new qx.ui.form.Button("Logout");
             this.buttonLogout.set({width: 20});
             this.buttonLogout.addListener("click", this.logout, this);
-            logoutBar.add(this.buttonLogout, {top: 50, right: 50});
+            logoutBar.add(this.buttonLogout, {top: 0, right: 0});
 			//Back-Button
 			this.buttonBack = new qx.ui.form.Button("Back");
             this.buttonBack.set({width: 20, appearance: "button-text-small"});
             this.buttonBack.addListener("click", this.back, this);
-            logoutBar.add(this.buttonBack, {top: 70, right: 50});
+            logoutBar.add(this.buttonBack, {top: 20, right: 0});
           },
           logout: function() {
             window.location.assign("https://alliances.commandandconquer.com/logout");
@@ -50,6 +47,7 @@
           mb = qx.core.Init.getApplication().getMenuBar();
           if (a && mb) {
             createTweak();
+            window.TALogout.main.getInstance().initialize();
           } else
             window.setTimeout(TALogout_checkIfLoaded, 1000);
         } else {
@@ -65,7 +63,7 @@
     if (/commandandconquer\.com/i.test(document.domain)) {
       window.setTimeout(TALogout_checkIfLoaded, 1000);
     }
-  }
+  };
 
   // injecting, because there seem to be problems when creating game interface with unsafeWindow
   var TALogoutScript = document.createElement("script");
@@ -77,3 +75,7 @@
   }
 
 })();
+
+// Events
+document.addEventListener("keyup", Key, false);
+Ini();
