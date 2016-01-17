@@ -3,18 +3,21 @@
 // @namespace      Tiberium_Alliances_Logout
 // @description    Creates logout and back buttons.
 // @include        https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
-// @version        1.0.0
-// @author         satougame
+// @version        1.5.0
+// @author         satougame & DLwarez
 // ==/UserScript==
 
 (function(){
   var TALogout_mainFunction = function() {
-    function createTweak() {
-      var TALogout = {};
+    var TALogout;
+      
+      function createTweak() {
+      console.log("TALogout Loaded");
+          
       qx.Class.define("TALogout.main", {
         type: "singleton",
         extend: qx.core.Object,
-        members: {
+          members: {
           buttonLogout: null,
 		  buttonBack: null,
           initialize: function() {
@@ -23,18 +26,18 @@
             this.buttonLogout = new qx.ui.form.Button("Logout");
             this.buttonLogout.set({width: 20});
             this.buttonLogout.addListener("click", this.logout, this);
-            logoutBar.add(this.buttonLogout, {top: 0, right: 0});
+            logoutBar.add(this.buttonLogout, {top: 50, right: 50});
 			//Back-Button
 			this.buttonBack = new qx.ui.form.Button("Back");
             this.buttonBack.set({width: 20, appearance: "button-text-small"});
             this.buttonBack.addListener("click", this.back, this);
-            logoutBar.add(this.buttonBack, {top: 20, right: 0});
+            logoutBar.add(this.buttonBack, {top: 70, right: 50});
           },
           logout: function() {
-            window.location = LandingPageURL + "/logout";
+            window.location.assign("https://alliances.commandandconquer.com/logout");
           },
 		  back: function() {
-			window.location = LandingPageURL + "/home";
+			window.location.assign("https://alliances.commandandconquer.com/home");
 		  },
         }
       });
@@ -47,7 +50,6 @@
           mb = qx.core.Init.getApplication().getMenuBar();
           if (a && mb) {
             createTweak();
-            window.TALogout.main.getInstance().initialize();
           } else
             window.setTimeout(TALogout_checkIfLoaded, 1000);
         } else {
